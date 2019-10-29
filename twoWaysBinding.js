@@ -13,19 +13,21 @@ function changeInput(e){
 function setObjectProps(property){
 	const ngValue = document.querySelectorAll(`[ng-value=${property}]`);
 	const ngModel = document.querySelectorAll(`[ng-model=${property}]`);
-	Object.defineProperty(scope, property,{
-		set: (newValue)=>{
-			this.value = newValue;
-			for(let i = 0; i<ngModel.length; i++){
-				ngModel[i].value = this.value;
-			}
-			for(let i = 0; i<ngValue.length; i++){
-				ngValue[i].innerHTML = this.value;
-			}
-		},
-		get: ()=>{
-			return this.value;
-		},
-		enumerable: true,
-	})
+	if(!scope.hasOwnProperty(property)){
+		Object.defineProperty(scope, property,{
+			set: (newValue)=>{
+				this.value = newValue;
+				for(let i = 0; i<ngModel.length; i++){
+					ngModel[i].value = this.value;
+				}
+				for(let i = 0; i<ngValue.length; i++){
+					ngValue[i].innerHTML = this.value;
+				}
+			},
+			get: ()=>{
+				return this.value;
+			},
+			enumerable: true,
+		})
+	}
 }
